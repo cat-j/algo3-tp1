@@ -15,7 +15,7 @@ class LicSilverstein {
     busquedas, inserciones y borrados de los metodos auxiliares. */
 
     public:
-        LicSilverstein(int i, int a, set<pair<int,int> > e, bool p1, bool p2 : cantAgentes(i), cantEncuestas(a), encuestas(e), poda1(p1), poda2(p2) {}
+        LicSilverstein(int i, int a, set<pair<int,int> > e, bool p1, bool p2) {}
         ~LicSilverstein();
 
         int mayorCantidad();
