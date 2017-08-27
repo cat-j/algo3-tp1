@@ -25,12 +25,18 @@ class LicSilverstein {
         // metodos auxiliares, ver detalles en implementacion
 
         int mayorCantidadAux(const int n);
+
         bool esValidoAgregar(int n);
         bool esValidoNoAgregar(int n);
-        bool noConfiableSegunJ(int n, int j);
-        bool confiableSegunJ(int n, int j);
+                
         bool jDeberiaEstarSegunNYNoEsta(int n, int j);
+
+        bool estaEnSolucion(int j);
+        
         bool condicionPoda1(int n);
+        bool condicionPoda2(int n);
+        
+        int cantAgentesNoDescartados(int n);
 
         set<pair<int,int> > encuestas; //conjunto de preguntas respondidas
         int cantAgentes; //tamano del conjunto de agentes

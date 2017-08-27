@@ -19,7 +19,7 @@ int LicSilverstein::mayorCantidadAux(const int n) {
 
         // Caso base: n es el ultimo agente
 
-        if (esValidoAgregar(n)) { solucionParcial.insert(n); }
+        if (esValidoAgregar(n)) { solucionParcial.insert(n); } // O(log(i))
         maxCantidadEncontrada = max( maxCantidadEncontrada, solucionParcial.size() );
         return solucionParcial.size();
 
@@ -49,61 +49,49 @@ int LicSilverstein::mayorCantidadAux(const int n) {
     }
 }
 
-bool LicSilverstein::esValidoAgregar(int n) {
+bool LicSilverstein::esValidoAgregar(int n) { // O(a*log(i))
 
     /* Verifica si es posible extender solucionParcial a una solucion valida agregando a n.
-    Es importante destacar que esta funcion NO DICE si solucionParcial union n es valida por si sola,
+    Es importante destacar que esta funcion NO DICE si solucionParcial union {n} es valida por si sola,
     sino que verifica que ningun agente ya agregado diga que el agente n no es confiable, que n
-    diga que algun agente ya agregado no es confiable o que n diga que es confiable un agente
+    no diga que algun agente ya agregado no es confiable o que n diga que es confiable un agente
     que ya NO puede ser agregado a esta solucion.
     Si esValidoAgregar verificara la validez de esa solucion, seria imposible extender un conjunto
     que es valido como solucion parcial a uno que es valido como solucion candidata, no se exploraria
     todo el espacio de soluciones y el algoritmo no resolveria el problema. */
 
-    int j = 1;
-
-    // Revisa si todos los agentes ya agregados son confiables segun n.
-    while(j < solucionParcial.size()) { // peor caso: i iteraciones
-        if (noConfiableSegunJ(n,j)) { return false; }
-        j++;
-    }
-
-    /* Revisa si hay algun agente considerado confiable por n que no haya sido agregado a la solucion parcial
-    y no vaya a ser agregado en un nodo descendiente del actual. */
     for (auto pregunta = encuestas.begin(); pregunta != encuestas.end(); ++pregunta) { // peor caso: a iteraciones
-        j = pregunta->second;
-        if ( pregunta->first == n && jDeberiaEstarSegunNYNoEsta(n, j) ) { return false; } // peor caso: O(log(i))
+
+        int k = pregunta->first, j = pregunta->second;
+
+        /* Revisa si hay algun agente agregado que no sea considerado confiable por n
+        o si n no considera confiable a algun agente agregado. */
+        if ( k==n && estaEnSolucion( -j ) ) { return false }; // O(log(i))
+        if ( estaEnSolucion(k) && j == -n ) { return false }; // O(log(i))
+    
+        /* Revisa si hay algun agente considerado confiable por n que no haya sido agregado a la solucion parcial
+        y no vaya a ser agregado en un nodo descendiente del actual. */
+        if ( k==n && jDeberiaEstarSegunNYNoEsta(n,j) ) { return false; }
     }
 
     return true;
 }
 
-bool LicSilverstein::esValidoNoAgregar(int n) {
+bool LicSilverstein::esValidoNoAgregar(int n) { // O(a*log(i))
 
     /* Similar a la funcion anterior. Si algun agente ya agregado dice que n es confiable, devuelve
-    False, puesto que seria obligatorio agregar a n dada esa informacion. */
+    false, puesto que seria obligatorio agregar a n dada esa informacion. */
 
-    int j = 1;
-    while(j < solucionParcial.size()) {
-        if (confiableSegunJ(n,j)) { return false; }
-    }
-}
-
-bool LicSilverstein::noConfiableSegunJ(int n, int j) {
-    for (auto pregunta = encuestas.begin(); pregunta != encuestas.end(); ++pregunta) {
-        if ( ( pregunta->first == j && pregunta->second == -n ) || ( pregunta->first == n && pregunta->second == -j ) ) {
-            return false;
-        }
-    }
-    return true;
-}
-
-bool LicSilverstein::confiableSegunJ(int n, int j) {
-    for (auto pregunta = encuestas.begin(); pregunta != encuestas.end(); ++pregunta) {
-        if ( pregunta->first == j && pregunta->second == n ) { return false; }
+    for (auto pregunta = encuestas.begin(); pregunta != encuestas.end(); ++pregunta) { // peor caso: a iteraciones
+        int k = pregunta->first, j = pregunta->second;
+        if ( estaEnSolucion(k) && j==n ) { return false; } // O(log(i))
     }
 
     return true;
+}
+
+bool estaEnSolucion(int j) {
+    return solucionParcial.find(j) != solucionParcial.end(); // O(log(i))
 }
 
 bool LicSilverstein::jDeberiaEstarSegunNYNoEsta(int n, int j) {
@@ -112,10 +100,18 @@ bool LicSilverstein::jDeberiaEstarSegunNYNoEsta(int n, int j) {
     Precondicion: hay alguna tupla (n, k) en las encuestas, con abs(k) == j. */
 
     if (abs(j) >= n) { return false; } // si j es mayor que n, todavia no llegamos a la llamada que le corresponde
-    bool estaJ = solucionParcial.find( abs(j) ) != solucionParcial.end();
-    return j>0 && !estaJ;
+    return j>0 && !estaEnSolucion(j); // O (log(i))
 }
 
 bool LicSilverstein::condicionPoda1(int n) {
     return ( poda1 && solucionParcial.size() + cantAgentes - n + 1 <= maxCantidadEncontrada );
 }
+
+// bool LicSilverstein::condicionPoda2(int n) {
+//     return ( poda2 && solucionParcial.size() + cantAgentes - cantAgentesNoDescartados + 1 <= maxCantidadEncontrada );
+// }
+
+// int LicSilverstein::cantAgentesNoDescartados(int n) {
+//     int res = 0, j = n+1;
+//     while
+// }
