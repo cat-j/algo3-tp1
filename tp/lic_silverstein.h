@@ -15,8 +15,7 @@ class LicSilverstein {
     busquedas, inserciones y borrados de los metodos auxiliares. */
 
     public:
-        LicSilverstein(int i, int a, set<pair<int,int> > e, bool p1, bool p2) {}
-        ~LicSilverstein();
+        LicSilverstein(int i, set<pair<int,int> > &e, int p1, int p2);
 
         int mayorCantidad();
 
@@ -32,6 +31,7 @@ class LicSilverstein {
         bool jDeberiaEstarSegunNYNoEsta(int n, int j);
 
         bool estaEnSolucion(int j);
+        bool estaEnEncuestas(std::pair<int, int> j);
         
         bool condicionPoda1(int n);
         bool condicionPoda2(int n);
@@ -45,8 +45,8 @@ class LicSilverstein {
         set<int> solucionParcial;
         /* esta variable va mutando durante la ejecucion del algoritmo; su estado representa
         el nodo del arbol en el que estamos parados */
-        bool poda1;
-        bool poda2;
+        int poda1;
+        int poda2;
 
 };
 

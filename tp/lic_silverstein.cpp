@@ -1,7 +1,9 @@
 #include "lic_silverstein.h"
 
-LicSilverstein::LicSilverstein(int i, set<pair<int,int> > e, bool p1, bool p2) : cantAgentes(i),
-cantEncuestas(a), encuestas(e.size()), poda1(p1), poda2(p2), maxCantidadEncontrada(0) {}
+LicSilverstein::LicSilverstein(int i, set<pair<int,int> > &e, int p1, int p2) :
+cantAgentes(i), encuestas(e), poda1(p1), poda2(p2) {
+    maxCantidadEncontrada = 0;
+}
 
 int LicSilverstein::mayorCantidad() {
     // Metodo principal.
@@ -20,7 +22,7 @@ int LicSilverstein::mayorCantidadAux(const int n) {
         // Caso base: n es el ultimo agente
 
         if (esValidoAgregar(n)) { solucionParcial.insert(n); } // O(a*log(i))
-        maxCantidadEncontrada = max( maxCantidadEncontrada, solucionParcial.size() );
+        if (solucionParcial.size() > maxCantidadEncontrada) { maxCantidadEncontrada = solucionParcial.size(); }
         return solucionParcial.size();
 
     } else {
@@ -70,8 +72,8 @@ bool LicSilverstein::esValidoAgregar(int n) { // O(a*log(i))
 
         /* Revisa si hay algun agente agregado que no sea considerado confiable por n
         o si n no considera confiable a algun agente agregado. */
-        if ( k==n && estaEnSolucion( -j ) ) { return false }; // O(log(i))
-        if ( estaEnSolucion(k) && j == -n ) { return false }; // O(log(i))
+        if ( k==n && estaEnSolucion( -j ) ) { return false; } // O(log(i))
+        if ( estaEnSolucion(k) && j == -n ) { return false; } // O(log(i))
     
         /* Revisa si hay algun agente considerado confiable por n que no haya sido agregado a la solucion parcial
         y no vaya a ser agregado en un nodo descendiente del actual. */
@@ -94,8 +96,12 @@ bool LicSilverstein::esValidoNoAgregar(int n) { // O(a*log(i))
     return true;
 }
 
-bool estaEnSolucion(int j) {
+bool LicSilverstein::estaEnSolucion(int j) {
     return solucionParcial.find(j) != solucionParcial.end(); // O(log(i))
+}
+
+bool LicSilverstein::estaEnEncuestas(std::pair<int, int> j) {
+    return encuestas.find(j) != encuestas.end(); // O(log(i))
 }
 
 bool LicSilverstein::jDeberiaEstarSegunNYNoEsta(int n, int j) {
@@ -121,8 +127,8 @@ int LicSilverstein::cantAgentesNoDescartados(int n) { // O(i^2*log(a))
     int res = 0;
     for (int j=n+1; j<= cantAgentes; j++) { // peor caso: i iteraciones
         for ( auto k = solucionParcial.begin(); k != solucionParcial.end(); ++k ) { // peor caso: i iteraciones
-            auto jnok = std::make_pair(j, -k);
-            auto knoj = std::make_pair(k, -j);
+            auto jnok = std::make_pair(j, -(*k));
+            auto knoj = std::make_pair(*k, -j);
             if ( !estaEnEncuestas(jnok) && !estaEnEncuestas(knoj) ) { res++; } // O(log(a))
         }
     }

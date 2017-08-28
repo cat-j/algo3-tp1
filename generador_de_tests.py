@@ -25,13 +25,13 @@ def generarEntrada(hasta, umbral_respuesta_positiva=0.5, umbral_responder=0.5, a
     with open(archivo, 'w') as entrada:
         for i in range(1,hasta+1):
             caso = generarCaso(i, umbral_respuesta_positiva, umbral_responder)
-            caso.append("0 0")
             
             for j in caso:
                 entrada.write(j + '\n')
-        entrada.close()
+
+        entrada.write("0 0 \n")
 
     return
 
 
-generarEntrada(4, 0.5, 0.3)
+generarEntrada(6, 0.5, 0.3)
