@@ -1,7 +1,7 @@
 #include "lic_silverstein.h"
 
-LicSilverstein::LicSilverstein(int i, int a, set<pair<int,int> > e, bool p1, bool p2) : cantAgentes(i),
-cantEncuestas(a), encuestas(e), poda1(p1), poda2(p2), maxCantidadEncontrada(0) {}
+LicSilverstein::LicSilverstein(int i, set<pair<int,int> > e, bool p1, bool p2) : cantAgentes(i),
+cantEncuestas(a), encuestas(e.size()), poda1(p1), poda2(p2), maxCantidadEncontrada(0) {}
 
 int LicSilverstein::mayorCantidad() {
     // Metodo principal.

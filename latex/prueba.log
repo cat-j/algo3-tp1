@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.5.27)  27 AUG 2017 23:21
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.5.27)  28 AUG 2017 10:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -624,15 +624,80 @@ Overfull \hbox (11.34442pt too wide) in paragraph at lines 182--182
  [][][][]\T1/cmr/m/n/9 inválida 
  []
 
-[2] [3] (./prueba.aux
+[2]
+Overfull \hbox (11.34442pt too wide) in paragraph at lines 270--270
+ [][][][]\T1/cmr/m/n/9 inválida 
+ []
+
+
+Overfull \hbox (9.80316pt too wide) in paragraph at lines 270--270
+ [][][][]\T1/cmr/m/n/9 podada 
+ []
+
+
+Overfull \hbox (11.34442pt too wide) in paragraph at lines 270--270
+ [][][][]\T1/cmr/m/n/9 inválida 
+ []
+
+
+Overfull \hbox (11.34442pt too wide) in paragraph at lines 270--270
+ [][][][]\T1/cmr/m/n/9 inválida 
+ []
+
+
+Overfull \hbox (9.80316pt too wide) in paragraph at lines 270--270
+ [][][][]\T1/cmr/m/n/9 podada 
+ []
+
+
+Overfull \hbox (11.34442pt too wide) in paragraph at lines 270--270
+ [][][][]\T1/cmr/m/n/9 inválida 
+ []
+
+
+Overfull \hbox (11.34442pt too wide) in paragraph at lines 270--270
+ [][][][]\T1/cmr/m/n/9 inválida 
+ []
+
+
+Overfull \hbox (11.34442pt too wide) in paragraph at lines 342--342
+ [][][][]\T1/cmr/m/n/9 inválida 
+ []
+
+
+Overfull \hbox (9.80316pt too wide) in paragraph at lines 342--342
+ [][][][]\T1/cmr/m/n/9 podada 
+ []
+
+
+Overfull \hbox (11.34442pt too wide) in paragraph at lines 342--342
+ [][][][]\T1/cmr/m/n/9 inválida 
+ []
+
+
+Overfull \hbox (11.34442pt too wide) in paragraph at lines 342--342
+ [][][][]\T1/cmr/m/n/9 inválida 
+ []
+
+
+Overfull \hbox (9.80316pt too wide) in paragraph at lines 342--342
+ [][][][]\T1/cmr/m/n/9 podada 
+ []
+
+
+Overfull \hbox (11.34442pt too wide) in paragraph at lines 342--342
+ [][][][]\T1/cmr/m/n/9 inválida 
+ []
+
+[3] [4] (./prueba.aux
 LaTeX Info: Redefining \. on input line 6.
 LaTeX Info: Redefining \% on input line 6.
 ) ) 
 Here is how much of TeX's memory you used:
- 13807 strings out of 493014
- 266542 string characters out of 6133351
- 320160 words of memory out of 5000000
- 17075 multiletter control sequences out of 15000+600000
+ 14023 strings out of 493014
+ 271582 string characters out of 6133351
+ 326269 words of memory out of 5000000
+ 17291 multiletter control sequences out of 15000+600000
  18120 words of font info for 42 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,14n,54p,972b,1491s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -655,10 +720,10 @@ exmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2016/tex
 mf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2016/texmf
 -dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2016/texmf-d
 ist/fonts/type1/public/cm-super/sfti1000.pfb>
-Output written on prueba.pdf (5 pages, 259703 bytes).
+Output written on prueba.pdf (6 pages, 264363 bytes).
 PDF statistics:
- 96 PDF objects out of 1000 (max. 8388607)
- 70 compressed objects within 1 object stream
+ 99 PDF objects out of 1000 (max. 8388607)
+ 72 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 

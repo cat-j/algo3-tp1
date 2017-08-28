@@ -184,13 +184,165 @@
 
 		\end{center}
 
-		Lo recorremos de izquierda a derecha: desde la ra\'iz, bajamos por la izquierda hasta llegar a una hoja
+		Lo recorremos de izquierda a derecha: desde la ra\'iz, bajamos por la izquierda hasta llegar a la hoja $<>$, guardamos el valor 0 como la mayor cantidad de agentes encontrada y subimos al nivel 4. Como quedan m\'as hojas por revisar, miramos la hoja derecha $<4>$, y como su longitud es mayor a 0, actualizamos el m\'aximo valor encontrado. Ahora, como ya revisamos todas las hojas del nodo $<>$ en el nivel 4, subimos al 3 y vemos si hay un sub\'arbol derecho por explorar; no hay, y por lo tanto volvemos al 2. Repetimos esta l\'ogica hasta llegar a la ra\'iz y hacemos lo mismo con el sub\'arbol derecho. Entonces habremos chequeado todas las soluciones y tendremos la \'optima. Esta idea de \textbf{subir al nodo padre una vez que exploramos los sub\'arboles} es que lo que le da su nombre al \textit{backtracking} (en ingl\'es, ``seguir un mismo camino hacia atr\'as'').
+		
+		
 		
 		Adem\'as de estructurar el espacio de soluciones, el modelado de \'este como un \'arbol nos da una gran ventaja: es posible definir \textit{podas} que nos ayudan a recorrerlo m\'as inteligentemente y, en muchos casos, ahorrar llamadas recursivas y mejorar el rendimiento del algoritmo. Podemos imaginar una poda como ``cortar'' un determinado sub\'arbol del espacio de soluciones cuando sabemos que no contiene \textbf{ninguna soluci\'on mejor que la encontrada hasta el momento}, por m\'as que todos sus nodos sean soluciones parciales v\'alidas.
 	
 	\subsubsection{Poda 1}
 	
+	En el \'arbol anterior puede verse que
+	
+	\begin{center}
+		
+		\begin{tikzpicture}[grow=down, sloped]
+		\node[sol] {$<>$}
+		    child {
+		        node[sol] {$<>$}        
+		            child {
+		                node[sol] {$<>$}
+		                child {
+		                  node[sol] {$<>$}
+		                  child {
+		                    node[sol] {$<>$}
+		                  }
+		                  child {
+		                    node[sol] {$<4>$}
+		                  }
+		                  edge from parent
+		                }
+		                child {
+		                  node[end] {\small inv\'alida}
+		                  edge from parent
+		                }
+		                edge from parent
+		            }
+		            child {
+		                node[sol] {$<2>$}
+		                child{
+		                  node[sol] {$<2>$}
+		                  child{
+		                    node[end] {\small podada}
+		                    edge from parent
+		                  }
+		                  child{
+		                    node[sol] {$<2,4>$}
+		                    edge from parent
+		                  }
+		                  edge from parent
+		                }
+		                child{
+		                  node[end] {\small inv\'alida}
+		                  edge from parent
+		                }
+		                edge from parent
+		            }
+		            edge from parent 
+		    }
+		    child {
+		        node[sol] {$<1>$}        
+		        child {
+		                node[end] {\small inv\'alida}
+		                edge from parent
+		            }
+		            child {
+		                node[sol] {$<1,2>$}
+		                child {
+		                   node[sol] {$<1,2>$}
+		                     child {
+		                       node[end] {\small podada}
+		                       edge from parent
+		                    }
+		                    child {
+		                      node[end] {\small inv\'alida}
+		                      edge from parent
+		                    }
+		                   edge from parent
+		                }
+		                child {
+		                  node[end] {\small inv\'alida}
+		                  edge from parent
+		                }
+		                edge from parent
+		            }
+		        edge from parent         
+		    };
+		\end{tikzpicture}
+
+		\end{center}
+	
 	\subsubsection{Poda 2}
+	
+	\begin{center}
+		
+		\begin{tikzpicture}[grow=down, sloped]
+		\node[sol] {$<>$}
+		    child {
+		        node[sol] {$<>$}        
+		            child {
+		                node[sol] {$<>$}
+		                child {
+		                  node[sol] {$<>$}
+		                  child {
+		                    node[sol] {$<>$}
+		                  }
+		                  child {
+		                    node[sol] {$<4>$}
+		                  }
+		                  edge from parent
+		                }
+		                child {
+		                  node[end] {\small inv\'alida}
+		                  edge from parent
+		                }
+		                edge from parent
+		            }
+		            child {
+		                node[sol] {$<2>$}
+		                child{
+		                  node[sol] {$<2>$}
+		                  child{
+		                    node[end] {\small podada}
+		                    edge from parent
+		                  }
+		                  child{
+		                    node[sol] {$<2,4>$}
+		                    edge from parent
+		                  }
+		                  edge from parent
+		                }
+		                child{
+		                  node[end] {\small inv\'alida}
+		                  edge from parent
+		                }
+		                edge from parent
+		            }
+		            edge from parent 
+		    }
+		    child {
+		        node[sol] {$<1>$}        
+		        child {
+		                node[end] {\small inv\'alida}
+		                edge from parent
+		            }
+		            child {
+		                node[sol] {$<1,2>$}
+		                child {
+		                   node[end] {\small podada}		                  
+		                   edge from parent
+		                }
+		                child {
+		                  node[end] {\small inv\'alida}
+		                  edge from parent
+		                }
+		                edge from parent
+		            }
+		        edge from parent         
+		    };
+		\end{tikzpicture}
+
+		\end{center}
 	
 	\subsection{Pseudoc\'odigo}
 
