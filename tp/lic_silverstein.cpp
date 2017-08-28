@@ -1,5 +1,30 @@
 #include "lic_silverstein.h"
 
+/* -- FUNCIONES AUXILIARES PARA DEBUGGEAR -- */
+
+void mostrarPair(pair<int, int> p) {
+    cout << "(" << p.first << "," << p.second << ")";
+}
+
+void mostrarSet(set<pair<int,int> > s) {
+    cout << "[ ";
+    for (auto it = s.begin(); it != s.end(); ++it) {
+        mostrarPair(*it);
+        cout << " ";
+    }
+    cout << "]" << endl;
+}
+
+void mostrarSetInts(set<int> s) {
+    cout << "[ ";
+    for (auto it = s.begin(); it != s.end(); ++it) {
+        cout << *it << " ";
+    }
+    cout << "]" << endl;   
+}
+
+/* -- CLASE QUE RESUELVE EL PROBLEMA -- */
+
 LicSilverstein::LicSilverstein(int i, set<pair<int,int> > &e, int p1, int p2) :
 cantAgentes(i), encuestas(e), poda1(p1), poda2(p2) {
     maxCantidadEncontrada = 0;
@@ -42,10 +67,14 @@ int LicSilverstein::mayorCantidadAux(const int n) {
         cantidad encontrada. */
 
         if ( esValidoNoAgregar(n) && !condicionPoda1(n+1) && !condicionPoda2(n+1) ) { // O( max( a*log(i), i^2*log(a) ) )
+            cout << "Subarbol izquierdo, nivel " << n << ". No agregamos " << n << " al conjunto ";
+            mostrarSetInts(solucionParcial);
             sinAgregar = mayorCantidadAux(n+1);
         }
 
         if ( esValidoAgregar(n) && !condicionPoda1(n) && !condicionPoda2(n) ) { // O( max( a*log(i), i^2*log(a) ) )
+            cout << "Subarbol derecho, nivel " << n << ". No agregamos " << n << " al conjunto ";
+            mostrarSetInts(solucionParcial);
             solucionParcial.insert(n);
             agregando = mayorCantidadAux(n+1);
             solucionParcial.erase(n); // vuelve para atras: el "backtrack" en backtracking

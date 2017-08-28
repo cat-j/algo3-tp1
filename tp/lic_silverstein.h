@@ -6,6 +6,9 @@ using namespace std;
 #ifndef LIC_SILVERSTEIN_H
 #define LIC_SILVERSTEIN_H
 
+void mostrarPair(pair<int, int> p);
+void mostrarSet(set<pair<int,int> > s);
+
 class LicSilverstein {
 
     /* Esta clase encapsula todas las variables necesarias para resolver el problema planteado:
