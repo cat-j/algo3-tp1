@@ -6,7 +6,8 @@ using namespace std;
 #ifndef LIC_SILVERSTEIN_H
 #define LIC_SILVERSTEIN_H
 
-#define DEBUG
+// #define DEBUG
+#define MSJPODA
 
 void mostrarPair(pair<int, int> p);
 void mostrarSet(set<pair<int,int> > s);
@@ -20,7 +21,7 @@ class LicSilverstein {
     busquedas, inserciones y borrados de los metodos auxiliares. */
 
     public:
-        LicSilverstein(int i, set<pair<int,int> > &e, int p1, int p2);
+        LicSilverstein(int i, set<pair<int,int> > e, int p1, int p2);
 
         int mayorCantidad();
 
@@ -28,20 +29,20 @@ class LicSilverstein {
 
         // metodos auxiliares, ver detalles en implementacion
 
-        int mayorCantidadAux(const int n);
+        int mayorCantidadAux(const int n, set<int> s);
 
-        bool esValidoAgregar(int n);
-        bool esValidoNoAgregar(int n);
+        bool esValidoAgregar(int n, set<int> &s);
+        bool esValidoNoAgregar(int n, set<int> &s);
                 
         bool jDeberiaEstarSegunNYNoEsta(int n, int j);
 
-        bool estaEnSolucion(int j);
+        bool estaEnSolucion(int j, set<int> &s);
         bool estaEnEncuestas(std::pair<int, int> j);
         
-        bool condicionPoda1(int n);
-        bool condicionPoda2(int n);
+        bool condicionPoda1(int n, set<int> &s);
+        bool condicionPoda2(int n, set<int> &s);
         
-        int cantAgentesNoDescartados(int n);
+        int cantAgentesNoDescartados(int n, set<int> &s);
 
         set<pair<int,int> > encuestas; //conjunto de preguntas respondidas
         int cantAgentes; //tamano del conjunto de agentes

@@ -25,17 +25,28 @@ void mostrarSetInts(set<int> s) {
 
 /* -- CLASE QUE RESUELVE EL PROBLEMA -- */
 
-LicSilverstein::LicSilverstein(int i, set<pair<int,int> > &e, int p1, int p2) :
+LicSilverstein::LicSilverstein(int i, set<pair<int,int> > e, int p1, int p2) :
 cantAgentes(i), encuestas(e), poda1(p1), poda2(p2) {
     maxCantidadEncontrada = 0;
 }
 
 int LicSilverstein::mayorCantidad() {
     // Metodo principal.
-    return mayorCantidadAux(1);
+
+    #ifdef MSJPODA
+    if (poda1) {
+        cout << "Poda 1 activada" << endl;
+    }
+
+    if (poda2) {
+        cout << "Poda 2 activada" << endl;
+    }
+    #endif
+
+    return mayorCantidadAux(1, solucionParcial);
 }
 
-int LicSilverstein::mayorCantidadAux(const int n) {
+int LicSilverstein::mayorCantidadAux(const int n, set<int> s) {
 
     /* Metodo auxiliar que extiende a mayorCantidad con un parametro n sobre el que hace recursion.
     En cada llamada, n representa el numero de agente sobre el que tomamos una decision;
@@ -43,79 +54,65 @@ int LicSilverstein::mayorCantidadAux(const int n) {
     Complejidad: O(2**cantAgentes * cantAgentes * log(cantAgentes) * cantEncuestas) */
 
     if (n==cantAgentes) {
+        set<int> solucionHoja = s;
 
-        // Caso base: n es el ultimo agente
+        #ifdef DEBUG
+        cout << "Llegamos a una hoja. ";
+        mostrarSetInts(solucionParcial);
+        #endif
 
-        if (esValidoAgregar(n)) {
+        if (esValidoAgregar(n,solucionHoja)) {
             #ifdef DEBUG
-            cout << "Llegamos a una hoja. Agregamos " << n << " al conjunto ";
-            mostrarSetInts(solucionParcial);
+            cout << "Agregamos " << n << " al conjunto ";
+            mostrarSetInts(solucionHoja);
             #endif
-
-            solucionParcial.insert(n);
-        } // O(a*log(i))
-
-        int cantidadEncontrada = solucionParcial.size();
-
-        if (cantidadEncontrada > maxCantidadEncontrada) {
+            solucionHoja.insert(n);
+        } else {
             #ifdef DEBUG
-            cout << "La cantidad actual " << cantidadEncontrada << " es mayor a "
-            << maxCantidadEncontrada << ". Actualizamos." << endl;
-            cout << "Mejor solucion encontrada: ";
-            mostrarSetInts(solucionParcial);
+            cout << "No agregamos " << n << " al conjunto ";
+            mostrarSetInts(solucionHoja);
             #endif
-
-            maxCantidadEncontrada = cantidadEncontrada;
         }
 
+        if ( solucionHoja.size() > maxCantidadEncontrada ) {
+            #ifdef DEBUG
+            cout << "La cantidad nueva " << solucionHoja.size() << " es mayor a la maxima cantidad encontrada " << maxCantidadEncontrada << ". Actualizamos." << endl;
+            #endif 
+            maxCantidadEncontrada = solucionHoja.size();
+        } 
 
-        solucionParcial.erase(n);
-        
-        return cantidadEncontrada;
+        return solucionHoja.size();
 
     } else {
-
-        /* Caso recursivo: elegimos la maxima cantidad a la que se puede llegar en cada subarbol
-        valido (agregar a n o no agregar a n). */
-
-        int sinAgregar = 0;
-        int agregando = 0;
-
-        /* Los siguientes ifs aseguran que esta recursion se corresponde con un arbol de backtracking y
-        no con uno de fuerza bruta, puesto que las llamadas recursivas no se efectuan cuando una decision
-        resultaria en una solucion invalida que no puede extenderse a una valida.
-        Ademas, en caso de estar podando el arbol, evitan explorar un subarbol si se cumplen las condiciones
-        de poda: o no quedan suficientes agentes en total para superar la maxima cantidad encontrada,
-        o no quedan suficientes agentes que no contradigan a los agregados para superar la maxima
-        cantidad encontrada. */
-
-        if ( esValidoNoAgregar(n) && !condicionPoda1(n+1) && !condicionPoda2(n+1) ) { // O( max( a*log(i), i^2*log(a) ) )
+        int sinAgregar = 0, agregando = 0;
+        if ( esValidoNoAgregar(n, s) && !condicionPoda1(n, s) && !condicionPoda2(n, s) ) {
             #ifdef DEBUG
             cout << "Maximo actual: " << maxCantidadEncontrada << endl;
+            cout << "Padre: ";
+            mostrarSetInts(s);
             cout << "Subarbol izquierdo, nivel " << n << ". No agregamos " << n << " al conjunto ";
-            mostrarSetInts(solucionParcial);
+            mostrarSetInts(s);
+
             #endif
-
-            sinAgregar = mayorCantidadAux(n+1);
+            sinAgregar = mayorCantidadAux(n+1, s);
         }
-
-        if ( esValidoAgregar(n) && !condicionPoda1(n) && !condicionPoda2(n) ) { // O( max( a*log(i), i^2*log(a) ) )
+        if ( esValidoAgregar(n, s) && !condicionPoda1(n, s) && !condicionPoda2(n, s) ) {
             #ifdef DEBUG
             cout << "Maximo actual: " << maxCantidadEncontrada << endl;
             cout << "Subarbol derecho, nivel " << n << ". Agregamos " << n << " al conjunto ";
-            mostrarSetInts(solucionParcial);
+            mostrarSetInts(s);
+            cout << "Padre: ";
+            mostrarSetInts(s);
             #endif
-
-            solucionParcial.insert(n);
-            agregando = mayorCantidadAux(n+1);
-            solucionParcial.erase(n); // vuelve para atras: el "backtrack" en backtracking
+            set<int> s2 = s;
+            s2.insert(n);
+            agregando = mayorCantidadAux(n+1, s2);
         }
-
-        return max(sinAgregar,agregando);
+        return max(sinAgregar, agregando);
     }
 }
 
-bool LicSilverstein::esValidoAgregar(int n) { // O(a*log(i))
+bool LicSilverstein::esValidoAgregar(int n, set<int> &s) { // O(a*log(i))
 
     /* Verifica si es posible extender solucionParcial a una solucion valida agregando a n.
     Es importante destacar que esta funcion NO DICE si solucionParcial union {n} es valida por si sola,
@@ -130,70 +127,112 @@ bool LicSilverstein::esValidoAgregar(int n) { // O(a*log(i))
 
         int k = pregunta->first, j = pregunta->second;
 
-        /* Revisa si hay algun agente agregado que no sea considerado confiable por n,
-        si n no considera confiable a algun agente agregado o si n no se considera
-        confiable a si mismo. */
-        if ( k==n && (estaEnSolucion( -j ) || -j == n) ) { return false; } // O(log(i))
-        if ( estaEnSolucion(k) && j == -n ) { return false; } // O(log(i))
-    
-        /* Revisa si hay algun agente considerado confiable por n que no haya sido agregado a la solucion parcial
-        y no vaya a ser agregado en un nodo descendiente del actual. */
-        //if ( k==n && jDeberiaEstarSegunNYNoEsta(n,j) ) { return false; } // O(log(i))
+        /* si n dice que un agente en la solucion no es confiable, no podemos agregarlo */
+        #ifdef DEBUG
+        //cout << "(k,j) es (" << k << "," << j << ")" << endl; 
+        #endif
+
+        if ( k==n && estaEnSolucion(-j,s) ) {
+            #ifdef DEBUG
+            cout << n << " dice que " << -j << " no es confiable, pero " << -j << " esta en la solucion. No podemos agregar a " << n << "." << endl;
+            #endif
+            return false;
+        }
+
+        /* si un agente de la solucion dice que n no es confiable o n no confia en si mismo,
+        tampoco podemos agregarlo */
+        if ( ( estaEnSolucion(k,s) || k==n ) && j==-n ) {
+            #ifdef DEBUG
+            cout << k << " dice que " << n << " no es confiable, pero " << k << " esta en la solucion. No podemos agregar a " << n << "." << endl;
+            #endif
+            return false;
+        }
+
+        /* si n dice que un agente j que no esta en la solucion es confiable y no podemos agregar a j
+        porque ya deberiamos haberlo hecho en una llamada recursiva anterior, tampoco podemos */
+        if ( k==n && j<n && j>0 && !estaEnSolucion(j,s) ) { return false; }
     }
 
     return true;
 }
 
-bool LicSilverstein::esValidoNoAgregar(int n) { // O(a*log(i))
+bool LicSilverstein::esValidoNoAgregar(int n, set<int> &s) { // O(a*log(i))
 
     /* Similar a la funcion anterior. Si algun agente ya agregado dice que n es confiable
     o n dice que el mismo es confiable, devuelve false, puesto que seria obligatorio agregar
     a n dada esa informacion. */
 
     for (auto pregunta = encuestas.begin(); pregunta != encuestas.end(); ++pregunta) { // peor caso: a iteraciones
+
         int k = pregunta->first, j = pregunta->second;
-        if ( (estaEnSolucion(k) || k==n) && j==n ) { return false; } // O(log(i))
+
+        /* si un agente de la solucion dice que n es confiable, si o si hay que agregarlo */
+        if ( estaEnSolucion(k,s) && j==n ) {
+            #ifdef DEBUG
+            cout << k << " dice que " << n << " no es confiable y " << k << " esta en la solucion. No podemos no agregar a " << n << "." << endl;
+            #endif
+            return false;
+        }
     }
 
     return true;
 }
 
-bool LicSilverstein::estaEnSolucion(int j) {
-    return solucionParcial.find(j) != solucionParcial.end(); // O(log(i))
+bool LicSilverstein::estaEnSolucion(int j, set<int> &s) {
+    return s.find(j) != s.end(); // O(log(i))
 }
 
 bool LicSilverstein::estaEnEncuestas(std::pair<int, int> j) {
     return encuestas.find(j) != encuestas.end(); // O(log(i))
 }
 
-bool LicSilverstein::jDeberiaEstarSegunNYNoEsta(int n, int j) {
-
-    /* Devuelve true si j es confiable segun n y podria haber sido agregado en una llamada recursiva anterior pero no lo fue.
-    Precondicion: hay alguna tupla (n, k) en las encuestas, con abs(k) == j. */
-
-    /* si j es mayor o igual que n, todavia no llegamos a la llamada que le corresponde; si es negativo, no es confiable segun n */
-    if (abs(j) >= n || j < 0) { return false; }
-    return estaEnSolucion(j); // O (log(i))
+bool LicSilverstein::condicionPoda1(int n, set<int> &s) {
+    // return true;
+    int agentesNoRevisados = cantAgentes - n + 1;
+    return ( poda1 && s.size() + agentesNoRevisados <= maxCantidadEncontrada );
 }
 
-bool LicSilverstein::condicionPoda1(int n) {
-    return ( poda1 && solucionParcial.size() + cantAgentes - n + 1 <= maxCantidadEncontrada );
+bool LicSilverstein::condicionPoda2(int n, set<int> &s) {
+    // return true;
+    int puedenAgregarse = cantAgentesNoDescartados(n, s); // O(i^2*log(a))
+    return ( poda2 && s.size() + puedenAgregarse <= maxCantidadEncontrada );
 }
 
-bool LicSilverstein::condicionPoda2(int n) {
-    int puedenAgregarse = cantAgentesNoDescartados(n); // O(i^2*log(a))
-    return ( poda2 && solucionParcial.size() + puedenAgregarse <= maxCantidadEncontrada );
-}
+int LicSilverstein::cantAgentesNoDescartados(int n, set<int> &s) {
+    // cout << "Chequeando condicion de poda 2" << endl;
+    // int res = 0;
+    // for (int j=n; j<= cantAgentes; j++) { // peor caso: i iteraciones
+    //     cout << "Entramos al ciclo for" << endl;
+    //     for ( auto k = s.begin(); k != s.end(); ++k ) { // peor caso: i iteraciones
+    //         auto jnok = std::make_pair(j, -(*k));
+    //         auto knoj = std::make_pair(*k, -j);
+    //         if ( !estaEnEncuestas(jnok) && !estaEnEncuestas(knoj) ) {
+    //             #ifdef MSJPODA2
+    //             cout << *k << " y " << j << " pueden estar en la misma solucion." << endl;
+    //             #endif
 
-int LicSilverstein::cantAgentesNoDescartados(int n) { // O(i^2*log(a))
-    int res = 0;
-    for (int j=n+1; j<= cantAgentes; j++) { // peor caso: i iteraciones
-        for ( auto k = solucionParcial.begin(); k != solucionParcial.end(); ++k ) { // peor caso: i iteraciones
-            auto jnok = std::make_pair(j, -(*k));
-            auto knoj = std::make_pair(*k, -j);
-            if ( !estaEnEncuestas(jnok) && !estaEnEncuestas(knoj) ) { res++; } // O(log(a))
+    //             res++;
+    //         } else {
+    //             #ifdef MSJPODA2
+    //             cout << *k << " y " << j << " no pueden estar en la misma solucion." << endl; 
+    //             #endif
+    //         } // O(log(a))
+    //     }
+    // }
+    /* para empezar asumimos que podemos agregar a todos los agentes que faltan */
+    int res = cantAgentes - n + 1;
+    for ( auto pregunta = encuestas.begin(); pregunta != encuestas.end(); ++pregunta ) {
+        int k = pregunta->first, j = pregunta->second;
+
+        if ( k >= n && estaEnSolucion(-j, s) ) {
+            /* algun agente por agregar dice que un agente ya agregado no es confiable,
+            por lo que disminuimos la cantidad potencial en 1 */
+            res--;
+        } else if ( estaEnSolucion(k,s) && -j >= n ) {
+            /* algun agente ya agregado dice que un agente por agregar no es confiable,
+            por lo que disminuimos la cantidad potencial en 1 */
+            res--;
         }
     }
-
     return res;
 }
