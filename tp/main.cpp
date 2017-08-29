@@ -3,7 +3,7 @@
 
 int main() {
     // std::cout << "acabas de cortar la lactricidad porque metiste un cutucuchillo ahi" << std::endl;
-    InterfazConsola pepe(0,0);
+    InterfazConsola pepe(1,0);
     pepe.procesarEntrada();
     return 0;
 }

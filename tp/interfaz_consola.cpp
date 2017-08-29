@@ -34,7 +34,7 @@ void InterfazConsola::procesarEntrada() {
 
         mostrarSet(encuestas);
 
-        LicSilverstein silverstein = LicSilverstein(i, encuestas, false, false);
+        LicSilverstein silverstein = LicSilverstein(i, encuestas, poda1, poda2);
         int res = silverstein.mayorCantidad();
         cout << "Mayor cantidad de agentes: " << res << endl;
 
