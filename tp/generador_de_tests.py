@@ -34,4 +34,4 @@ def generarEntrada(hasta, umbral_respuesta_positiva=0.5, umbral_responder=0.5, a
     return
 
 
-generarEntrada(10, 1.0, 0.0)
+generarEntrada(10, 0.5, 0.0)

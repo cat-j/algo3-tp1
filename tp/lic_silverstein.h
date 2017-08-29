@@ -6,6 +6,8 @@ using namespace std;
 #ifndef LIC_SILVERSTEIN_H
 #define LIC_SILVERSTEIN_H
 
+#define DEBUG
+
 void mostrarPair(pair<int, int> p);
 void mostrarSet(set<pair<int,int> > s);
 

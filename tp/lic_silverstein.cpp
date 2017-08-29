@@ -46,9 +46,32 @@ int LicSilverstein::mayorCantidadAux(const int n) {
 
         // Caso base: n es el ultimo agente
 
-        if (esValidoAgregar(n)) { solucionParcial.insert(n); } // O(a*log(i))
-        if (solucionParcial.size() > maxCantidadEncontrada) { maxCantidadEncontrada = solucionParcial.size(); }
-        return solucionParcial.size();
+        if (esValidoAgregar(n)) {
+            #ifdef DEBUG
+            cout << "Llegamos a una hoja. Agregamos " << n << " al conjunto ";
+            mostrarSetInts(solucionParcial);
+            #endif
+
+            solucionParcial.insert(n);
+        } // O(a*log(i))
+
+        int cantidadEncontrada = solucionParcial.size();
+
+        if (cantidadEncontrada > maxCantidadEncontrada) {
+            #ifdef DEBUG
+            cout << "La cantidad actual " << cantidadEncontrada << " es mayor a "
+            << maxCantidadEncontrada << ". Actualizamos." << endl;
+            cout << "Mejor solucion encontrada: ";
+            mostrarSetInts(solucionParcial);
+            #endif
+
+            maxCantidadEncontrada = cantidadEncontrada;
+        }
+
+
+        solucionParcial.erase(n);
+        
+        return cantidadEncontrada;
 
     } else {
 
@@ -67,14 +90,22 @@ int LicSilverstein::mayorCantidadAux(const int n) {
         cantidad encontrada. */
 
         if ( esValidoNoAgregar(n) && !condicionPoda1(n+1) && !condicionPoda2(n+1) ) { // O( max( a*log(i), i^2*log(a) ) )
+            #ifdef DEBUG
+            cout << "Maximo actual: " << maxCantidadEncontrada << endl;
             cout << "Subarbol izquierdo, nivel " << n << ". No agregamos " << n << " al conjunto ";
             mostrarSetInts(solucionParcial);
+            #endif
+
             sinAgregar = mayorCantidadAux(n+1);
         }
 
         if ( esValidoAgregar(n) && !condicionPoda1(n) && !condicionPoda2(n) ) { // O( max( a*log(i), i^2*log(a) ) )
-            cout << "Subarbol derecho, nivel " << n << ". No agregamos " << n << " al conjunto ";
+            #ifdef DEBUG
+            cout << "Maximo actual: " << maxCantidadEncontrada << endl;
+            cout << "Subarbol derecho, nivel " << n << ". Agregamos " << n << " al conjunto ";
             mostrarSetInts(solucionParcial);
+            #endif
+
             solucionParcial.insert(n);
             agregando = mayorCantidadAux(n+1);
             solucionParcial.erase(n); // vuelve para atras: el "backtrack" en backtracking
@@ -99,14 +130,15 @@ bool LicSilverstein::esValidoAgregar(int n) { // O(a*log(i))
 
         int k = pregunta->first, j = pregunta->second;
 
-        /* Revisa si hay algun agente agregado que no sea considerado confiable por n
-        o si n no considera confiable a algun agente agregado. */
-        if ( k==n && estaEnSolucion( -j ) ) { return false; } // O(log(i))
+        /* Revisa si hay algun agente agregado que no sea considerado confiable por n,
+        si n no considera confiable a algun agente agregado o si n no se considera
+        confiable a si mismo. */
+        if ( k==n && (estaEnSolucion( -j ) || -j == n) ) { return false; } // O(log(i))
         if ( estaEnSolucion(k) && j == -n ) { return false; } // O(log(i))
     
         /* Revisa si hay algun agente considerado confiable por n que no haya sido agregado a la solucion parcial
         y no vaya a ser agregado en un nodo descendiente del actual. */
-        if ( k==n && jDeberiaEstarSegunNYNoEsta(n,j) ) { return false; } // O(log(i))
+        //if ( k==n && jDeberiaEstarSegunNYNoEsta(n,j) ) { return false; } // O(log(i))
     }
 
     return true;
@@ -114,12 +146,13 @@ bool LicSilverstein::esValidoAgregar(int n) { // O(a*log(i))
 
 bool LicSilverstein::esValidoNoAgregar(int n) { // O(a*log(i))
 
-    /* Similar a la funcion anterior. Si algun agente ya agregado dice que n es confiable, devuelve
-    false, puesto que seria obligatorio agregar a n dada esa informacion. */
+    /* Similar a la funcion anterior. Si algun agente ya agregado dice que n es confiable
+    o n dice que el mismo es confiable, devuelve false, puesto que seria obligatorio agregar
+    a n dada esa informacion. */
 
     for (auto pregunta = encuestas.begin(); pregunta != encuestas.end(); ++pregunta) { // peor caso: a iteraciones
         int k = pregunta->first, j = pregunta->second;
-        if ( estaEnSolucion(k) && j==n ) { return false; } // O(log(i))
+        if ( (estaEnSolucion(k) || k==n) && j==n ) { return false; } // O(log(i))
     }
 
     return true;

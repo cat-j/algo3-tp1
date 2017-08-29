@@ -17,7 +17,6 @@ InterfazConsola::InterfazConsola(int p1, int p2) : poda1(p1), poda2(p2) {}
 
 void InterfazConsola::procesarEntrada() {
 
-    cout << "MAMA CORTASTE TODA LA LOZ" << endl;
     int x, y;
     cin >> x >> y;
 
@@ -29,7 +28,6 @@ void InterfazConsola::procesarEntrada() {
 
         for (int j=0; j<a; j++) {
             cin >> x >> y;
-            // cout << x << " " << y << endl;
             pair<int, int> p = make_pair(x,y);
             encuestas.insert(p); 
         }
