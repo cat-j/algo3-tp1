@@ -7,7 +7,7 @@ using namespace std;
 #define LIC_SILVERSTEIN_H
 
 // #define DEBUG
-#define MSJPODA
+// #define MSJPODA
 
 void mostrarPair(pair<int, int> p);
 void mostrarSet(set<pair<int,int> > s);
@@ -33,11 +33,8 @@ class LicSilverstein {
 
         bool esValidoAgregar(int n, set<int> &s);
         bool esValidoNoAgregar(int n, set<int> &s);
-                
-        bool jDeberiaEstarSegunNYNoEsta(int n, int j);
 
         bool estaEnSolucion(int j, set<int> &s);
-        bool estaEnEncuestas(std::pair<int, int> j);
         
         bool condicionPoda1(int n, set<int> &s);
         bool condicionPoda2(int n, set<int> &s);
@@ -46,7 +43,6 @@ class LicSilverstein {
 
         set<pair<int,int> > encuestas; //conjunto de preguntas respondidas
         int cantAgentes; //tamano del conjunto de agentes
-        int cantEncuestas; //tamano del conjunto de preguntas respondidas; variable auxiliar para hacer mas declarativo el codigo
         int maxCantidadEncontrada; //tamano de la mejor solucion hallada; variable auxiliar para hacer las podas
         set<int> solucionParcial;
         /* esta variable va mutando durante la ejecucion del algoritmo; su estado representa

@@ -51,7 +51,7 @@ int LicSilverstein::mayorCantidadAux(const int n, set<int> s) {
     /* Metodo auxiliar que extiende a mayorCantidad con un parametro n sobre el que hace recursion.
     En cada llamada, n representa el numero de agente sobre el que tomamos una decision;
     crece hasta que no quedan mas agentes para agregar.
-    Complejidad: O(2**cantAgentes * cantAgentes * log(cantAgentes) * cantEncuestas) */
+    Complejidad: O(2**i * i * log(i) * a) */
 
     if (n==cantAgentes) {
         set<int> solucionHoja = s;
@@ -128,10 +128,6 @@ bool LicSilverstein::esValidoAgregar(int n, set<int> &s) { // O(a*log(i))
         int k = pregunta->first, j = pregunta->second;
 
         /* si n dice que un agente en la solucion no es confiable, no podemos agregarlo */
-        #ifdef DEBUG
-        //cout << "(k,j) es (" << k << "," << j << ")" << endl; 
-        #endif
-
         if ( k==n && estaEnSolucion(-j,s) ) {
             #ifdef DEBUG
             cout << n << " dice que " << -j << " no es confiable, pero " << -j << " esta en la solucion. No podemos agregar a " << n << "." << endl;
@@ -182,45 +178,28 @@ bool LicSilverstein::estaEnSolucion(int j, set<int> &s) {
     return s.find(j) != s.end(); // O(log(i))
 }
 
-bool LicSilverstein::estaEnEncuestas(std::pair<int, int> j) {
-    return encuestas.find(j) != encuestas.end(); // O(log(i))
-}
-
 bool LicSilverstein::condicionPoda1(int n, set<int> &s) {
-    // return true;
+    /* Dice si la cantidad de agentes que potencialmente podrian agregarse
+    a la solucion parcial s desde el nivel n NO ALCANZA para superar la
+    maxima cantidad encontrada hasta el momento. */
     int agentesNoRevisados = cantAgentes - n + 1;
     return ( poda1 && s.size() + agentesNoRevisados <= maxCantidadEncontrada );
 }
 
 bool LicSilverstein::condicionPoda2(int n, set<int> &s) {
-    // return true;
     int puedenAgregarse = cantAgentesNoDescartados(n, s); // O(i^2*log(a))
     return ( poda2 && s.size() + puedenAgregarse <= maxCantidadEncontrada );
 }
 
 int LicSilverstein::cantAgentesNoDescartados(int n, set<int> &s) {
-    // cout << "Chequeando condicion de poda 2" << endl;
-    // int res = 0;
-    // for (int j=n; j<= cantAgentes; j++) { // peor caso: i iteraciones
-    //     cout << "Entramos al ciclo for" << endl;
-    //     for ( auto k = s.begin(); k != s.end(); ++k ) { // peor caso: i iteraciones
-    //         auto jnok = std::make_pair(j, -(*k));
-    //         auto knoj = std::make_pair(*k, -j);
-    //         if ( !estaEnEncuestas(jnok) && !estaEnEncuestas(knoj) ) {
-    //             #ifdef MSJPODA2
-    //             cout << *k << " y " << j << " pueden estar en la misma solucion." << endl;
-    //             #endif
+    /* Busca la maxima cantidad de agentes aun no agregados (cuando estamos
+    en el nivel n) que no son considerados no confiables por los que ya agregamos
+    a la solucion parcial, o que no consideran no confiable a algun agente
+    ya agregado a la solucion parcial. */
 
-    //             res++;
-    //         } else {
-    //             #ifdef MSJPODA2
-    //             cout << *k << " y " << j << " no pueden estar en la misma solucion." << endl; 
-    //             #endif
-    //         } // O(log(a))
-    //     }
-    // }
     /* para empezar asumimos que podemos agregar a todos los agentes que faltan */
     int res = cantAgentes - n + 1;
+
     for ( auto pregunta = encuestas.begin(); pregunta != encuestas.end(); ++pregunta ) {
         int k = pregunta->first, j = pregunta->second;
 
