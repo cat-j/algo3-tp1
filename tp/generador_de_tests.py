@@ -21,7 +21,7 @@ def generarCaso(k, umbral_respuesta_positiva=0.5, umbral_responder=0.5):
     caso.insert(0, str(k) + " " + str(a))
     return caso
 
-def generarEntrada(hasta, umbral_respuesta_positiva=0.5, umbral_responder=0.5, archivo="prueba.txt"):
+def generarEntrada(hasta, umbral_respuesta_positiva=0.5, umbral_responder=0.5, archivo="prueba"):
     with open(archivo, 'w') as entrada:
         for i in range(1,hasta+1):
             caso = generarCaso(i, umbral_respuesta_positiva, umbral_responder)
@@ -34,4 +34,4 @@ def generarEntrada(hasta, umbral_respuesta_positiva=0.5, umbral_responder=0.5, a
     return
 
 
-generarEntrada(6, 0.2, 0.5)
+generarEntrada(25, 0.5, 0.99)
