@@ -90,7 +90,7 @@
 		
 		\begin{itemize}
 		\item Construir una \textit{soluci\'on parcial} que pueda extenderse a \textbf{cualquier} soluci\'on candidata del problema en un n\'umero finito de pasos. Por ejemplo, si se intentara resolver un Sudoku, la soluci\'on parcial inicial podr\'ia ser ``dejar el tablero vac\'io'', y una extensi\'on consistir\'ia en llenar un casillero m\'as. En el problema presentado en este trabajo, la soluci\'on parcial inicial es el conjunto vac\'io, que se extender\'a a subconjuntos del conjunto total de agentes. \footnote{Observaci\'on: una soluci\'on parcial \textbf{no es} necesariamente una soluci\'on al problema. En el ejemplo del Sudoku, el tablero vac\'io no es una soluci\'on v\'alida, pero es posible llegar a una a partir de \'el mediante operaciones sencillas como llenar un casillero. Por el contrario, en el problema de los agentes, la soluci\'on parcial inicial \textbf{siempre} es v\'alida, aunque en muchos casos no ser\'a la \'optima.}
-		\item Recorrer todo el espacio de soluciones v\'alidas o que podr\'ian extenderse a soluciones v\'alidas, a menudo mediante llamadas recursivas al mismo algoritmo. A partir de este esquema, puede modelarse el espacio de soluciones como un \textbf{\'arbol} donde cada nodo representa una soluci\'on parcial: la ra\'iz es la soluci\'on inicial y los hijos de cada nodo son las soluciones que pueden construirse directamente a partir de \'el. En este caso, el \'arbol es \textbf{binario}, la ra\'iz es el conjunto vac\'io y, para cada $(1 \leq j \leq i)$, el sub\'arbol izquierdo de un nodo de nivel $j-1$ representa los conjuntos que \textbf{no contienen al agente \textit{j}} y el derecho representa a los que \textbf{s\'i}. Por lo tanto, dado un nodo de nivel $j-1$ con una soluci\'on $S$, sus hijos representan decisiones a tomar: agregar a $j$ a $S$ y no agregar a $j$ a $S$.
+		\item Recorrer \textbf{todo} el espacio de soluciones v\'alidas o que podr\'ian extenderse a soluciones v\'alidas, a menudo mediante llamadas recursivas al mismo algoritmo. A partir de este esquema, puede modelarse el espacio de soluciones como un \textbf{\'arbol} donde cada nodo representa una soluci\'on parcial: la ra\'iz es la soluci\'on inicial y los hijos de cada nodo son las soluciones que pueden construirse directamente a partir de \'el. En este caso, el \'arbol es \textbf{binario}, la ra\'iz es el conjunto vac\'io y, para cada $(1 \leq j \leq i)$, el sub\'arbol izquierdo de un nodo de nivel $j-1$ representa los conjuntos que \textbf{no contienen al agente \textit{j}} y el derecho representa a los que \textbf{s\'i}. Por lo tanto, dado un nodo de nivel $j-1$ con una soluci\'on $S$, sus hijos representan decisiones a tomar: agregar a $j$ a $S$ y no agregar a $j$ a $S$.
 		\item Elegir la soluci\'on \'optima entre las recorridas.
 		\end{itemize}
 		
@@ -192,82 +192,25 @@
 	
 	\subsubsection{Poda 1}
 	
-	En el \'arbol anterior puede verse que
+	Supongamos que tenemos 4 agentes y el conjunto de encuestas es $E = <(1,2), (1,-3) >$. El \'arbol de backtracking tiene este aspecto:
+	
 	
 	\begin{center}
 		
 		\begin{tikzpicture}[grow=down, sloped]
 		\node[sol] {$<>$}
-		    child {
-		        node[sol] {$<>$}        
-		            child {
-		                node[sol] {$<>$}
-		                child {
-		                  node[sol] {$<>$}
-		                  child {
-		                    node[sol] {$<>$}
-		                  }
-		                  child {
-		                    node[sol] {$<4>$}
-		                  }
-		                  edge from parent
-		                }
-		                child {
-		                  node[end] {\small inv\'alida}
-		                  edge from parent
-		                }
-		                edge from parent
-		            }
-		            child {
-		                node[sol] {$<2>$}
-		                child{
-		                  node[sol] {$<2>$}
-		                  child{
-		                    node[end] {\small podada}
-		                    edge from parent
-		                  }
-		                  child{
-		                    node[sol] {$<2,4>$}
-		                    edge from parent
-		                  }
-		                  edge from parent
-		                }
-		                child{
-		                  node[end] {\small inv\'alida}
-		                  edge from parent
-		                }
-		                edge from parent
-		            }
-		            edge from parent 
-		    }
-		    child {
-		        node[sol] {$<1>$}        
-		        child {
-		                node[end] {\small inv\'alida}
-		                edge from parent
-		            }
-		            child {
-		                node[sol] {$<1,2>$}
-		                child {
-		                   node[sol] {$<1,2>$}
-		                     child {
-		                       node[end] {\small podada}
-		                       edge from parent
-		                    }
-		                    child {
-		                      node[end] {\small inv\'alida}
-		                      edge from parent
-		                    }
-		                   edge from parent
-		                }
-		                child {
-		                  node[end] {\small inv\'alida}
-		                  edge from parent
-		                }
-		                edge from parent
-		            }
-		        edge from parent         
-		    };
+		child {
+			node[sol] {$<>$}	
+			child {
+				node[sol] {$<>$}	
+			}
+			child {
+				node[sol] {$<2>$}	
+			}	
+		}
+		child {
+			node[sol] {$<1>$}
+		};
 		\end{tikzpicture}
 
 		\end{center}
