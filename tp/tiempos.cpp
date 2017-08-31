@@ -2,7 +2,7 @@
 #include "interfaz_consola.h"
 
 int main() {
-    InterfazConsola pepe(1,0);
-    pepe.tomarTiempos(10);
+    InterfazConsola pepe(0,0);
+    pepe.tomarTiempos(32);
     return 0;
 }

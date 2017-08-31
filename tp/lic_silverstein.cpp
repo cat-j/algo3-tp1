@@ -85,6 +85,7 @@ int LicSilverstein::mayorCantidadAux(const int n, set<int> s) {
 
     } else {
         int sinAgregar = 0, agregando = 0;
+        
         if ( esValidoNoAgregar(n, s) && !condicionPoda1(n, s) && !condicionPoda2(n, s) ) {
             #ifdef DEBUG
             cout << "Maximo actual: " << maxCantidadEncontrada << endl;
@@ -92,10 +93,10 @@ int LicSilverstein::mayorCantidadAux(const int n, set<int> s) {
             mostrarSetInts(s);
             cout << "Subarbol izquierdo, nivel " << n << ". No agregamos " << n << " al conjunto ";
             mostrarSetInts(s);
-
             #endif
             sinAgregar = mayorCantidadAux(n+1, s);
         }
+
         if ( esValidoAgregar(n, s) && !condicionPoda1(n, s) && !condicionPoda2(n, s) ) {
             #ifdef DEBUG
             cout << "Maximo actual: " << maxCantidadEncontrada << endl;
