@@ -3,6 +3,6 @@
 
 int main() {
     InterfazConsola pepe(0,0);
-    pepe.procesarEntrada();
+    pepe.tomarTiempos(32);
     return 0;
 }
