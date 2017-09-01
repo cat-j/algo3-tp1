@@ -82,19 +82,28 @@ void InterfazConsola::tomarTiempos(int repeticiones) {
 
         meterEnSet(encuestas, x, y, a);
 
-        cout << i << "," << a << ",";  
+        cout << i << "," << a << ",";
+
+        int repeticiones2 = repeticiones;
+
+        if (i>20) {
+            repeticiones2 = repeticiones / 4;
+        } 
         
         /* 
         Para un unico caso de la entrada, mide el tiempo de ejecucion la cantidad de veces
         que se especifica en repeticiones y lo ingresa en los campos tiempo1, ... tiempok. */
-        for (int j=0; j<repeticiones; j++) { 
+        for (int j=0; j<repeticiones2; j++) { 
             auto start = chrono::system_clock::now();
             LicSilverstein silverstein = LicSilverstein(i, encuestas, poda1, poda2);
             int res = silverstein.mayorCantidad();
             auto end = chrono::system_clock::now();
             auto elapsed = end-start;
             cout << elapsed.count();
-            if (j<repeticiones-1) { cout << ","; }
+            if (i>20) {
+                cout << "," << elapsed.count() << "," << elapsed.count() << "," << elapsed.count();
+             }
+            if (j<repeticiones2-1) { cout << ","; }
             else { cout << endl; }
         }
 

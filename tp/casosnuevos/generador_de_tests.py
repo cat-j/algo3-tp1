@@ -66,91 +66,110 @@ def generarEntradaPositivoCreciente(i, umbral_responder=0.5, cantidad=20, archiv
 
     return
 
+probas = [0.0, 0.25, 0.5, 0.75, 0.875, 1.0]
 
-#i creciente, ninguno positivo
-generarEntradaICreciente(30, 1.0, 0.5, "icreciente_10_05")
-generarEntradaICreciente(30, 1.0, 0.1, "icreciente_10_01")
-generarEntradaICreciente(30, 1.0, 0.9, "icreciente_10_09")
+#cantidad de agentes de 1 a 24
+# for p in probas:
+#     for q in probas:
+#         pstring = str(p).replace(".","")
+#         qstring = str(q).replace(".","")
+#         print "Generando entradas de 1 a 24 agentes"
+#         generarEntradaICreciente(24, p, q, "icreciente_" + pstring + "_" + qstring)
 
-#i creciente, 10% positivos
-generarEntradaICreciente(30, 0.9, 0.5, "icreciente_09_05")
-generarEntradaICreciente(30, 0.9, 0.1, "icreciente_09_01")
-generarEntradaICreciente(30, 0.9, 0.9, "icreciente_09_09")
+for p in probas:
+    pstring = str(p).replace(".","")
+    generarEntradaACreciente(15, p, 20, "acreciente_" + pstring)
 
-#i creciente, 25% positivos
-generarEntradaICreciente(30, 0.75, 0.5, "icreciente_075_05")
-generarEntradaICreciente(30, 0.75, 0.1, "icreciente_075_01")
-generarEntradaICreciente(30, 0.75, 0.9, "icreciente_075_09")
-
-#i creciente, igual cantidad de positivos y no positivos
-generarEntradaICreciente(30, 0.5, 0.5, "icreciente_05_05")
-generarEntradaICreciente(30, 0.5, 0.1, "icreciente_05_01")
-generarEntradaICreciente(30, 0.5, 0.9, "icreciente_05_09")
-
-#i creciente, 75% positivos
-generarEntradaICreciente(30, 0.25, 0.5, "icreciente_025_05")
-generarEntradaICreciente(30, 0.25, 0.1, "icreciente_025_01")
-generarEntradaICreciente(30, 0.25, 0.9, "icreciente_025_09")
-
-#i creciente, 90% positivos
-generarEntradaICreciente(30, 0.1, 0.5, "icreciente_01_05")
-generarEntradaICreciente(30, 0.1, 0.1, "icreciente_01_01")
-generarEntradaICreciente(30, 0.1, 0.9, "icreciente_01_09")
-
-#i creciente, todos positivos
-generarEntradaICreciente(30, 0.0, 0.5, "icreciente_00_05")
-generarEntradaICreciente(30, 0.0, 0.1, "icreciente_00_01")
-generarEntradaICreciente(30, 0.0, 0.9, "icreciente_00_09")
+for p in probas:
+    pstring = str(p).replace(".","")
+    generarEntradaPositivoCreciente(15, p, 20, "positivocreciente_" + pstring)
 
 
-#a creciente, ninguno positivo
-generarEntradaACreciente(15, 1.0, 20, "acreciente_00")
 
-#a creciente, 1% positivos
-generarEntradaACreciente(15, 0.99, 20, "acreciente_001")
+# #i creciente, ninguno positivo
+# generarEntradaICreciente(30, 1.0, 0.5, "icreciente_10_05")
+# generarEntradaICreciente(30, 1.0, 0.1, "icreciente_10_01")
+# generarEntradaICreciente(30, 1.0, 0.9, "icreciente_10_09")
 
-#a creciente, 10% positivos
-generarEntradaACreciente(15, 0.9, 20, "acreciente_01")
+# #i creciente, 10% positivos
+# generarEntradaICreciente(30, 0.9, 0.5, "icreciente_09_05")
+# generarEntradaICreciente(30, 0.9, 0.1, "icreciente_09_01")
+# generarEntradaICreciente(30, 0.9, 0.9, "icreciente_09_09")
 
-#a creciente, 25% positivos
-generarEntradaACreciente(15, 0.75, 20, "acreciente_025")
+# #i creciente, 25% positivos
+# generarEntradaICreciente(30, 0.75, 0.5, "icreciente_075_05")
+# generarEntradaICreciente(30, 0.75, 0.1, "icreciente_075_01")
+# generarEntradaICreciente(30, 0.75, 0.9, "icreciente_075_09")
 
-#a creciente, igual cantidad de positivos y no positivos
-generarEntradaACreciente(15, 0.5, 20, "acreciente_05")
+# #i creciente, igual cantidad de positivos y no positivos
+# generarEntradaICreciente(30, 0.5, 0.5, "icreciente_05_05")
+# generarEntradaICreciente(30, 0.5, 0.1, "icreciente_05_01")
+# generarEntradaICreciente(30, 0.5, 0.9, "icreciente_05_09")
 
-#a creciente, 75% positivos
-generarEntradaACreciente(15, 0.25, 20, "acreciente_075")
+# #i creciente, 75% positivos
+# generarEntradaICreciente(30, 0.25, 0.5, "icreciente_025_05")
+# generarEntradaICreciente(30, 0.25, 0.1, "icreciente_025_01")
+# generarEntradaICreciente(30, 0.25, 0.9, "icreciente_025_09")
 
-#a creciente, 90% positivos
-generarEntradaACreciente(15, 0.1, 20, "acreciente_09")
+# #i creciente, 90% positivos
+# generarEntradaICreciente(30, 0.1, 0.5, "icreciente_01_05")
+# generarEntradaICreciente(30, 0.1, 0.1, "icreciente_01_01")
+# generarEntradaICreciente(30, 0.1, 0.9, "icreciente_01_09")
 
-#a creciente, 99% positivos
-generarEntradaACreciente(15, 0.01, 20, "acreciente_099")
+# #i creciente, todos positivos
+# generarEntradaICreciente(30, 0.0, 0.5, "icreciente_00_05")
+# generarEntradaICreciente(30, 0.0, 0.1, "icreciente_00_01")
+# generarEntradaICreciente(30, 0.0, 0.9, "icreciente_00_09")
 
-#a creciente, todos positivos
-generarEntradaACreciente(15, 0.0, 20, "acreciente_10")
+
+# #a creciente, ninguno positivo
+# generarEntradaACreciente(15, 1.0, 20, "acreciente_00")
+
+# #a creciente, 1% positivos
+# generarEntradaACreciente(15, 0.99, 20, "acreciente_001")
+
+# #a creciente, 10% positivos
+# generarEntradaACreciente(15, 0.9, 20, "acreciente_01")
+
+# #a creciente, 25% positivos
+# generarEntradaACreciente(15, 0.75, 20, "acreciente_025")
+
+# #a creciente, igual cantidad de positivos y no positivos
+# generarEntradaACreciente(15, 0.5, 20, "acreciente_05")
+
+# #a creciente, 75% positivos
+# generarEntradaACreciente(15, 0.25, 20, "acreciente_075")
+
+# #a creciente, 90% positivos
+# generarEntradaACreciente(15, 0.1, 20, "acreciente_09")
+
+# #a creciente, 99% positivos
+# generarEntradaACreciente(15, 0.01, 20, "acreciente_099")
+
+# #a creciente, todos positivos
+# generarEntradaACreciente(15, 0.0, 20, "acreciente_10")
 
 
-#positivo creciente, 1% responden
-generarEntradaPositivoCreciente(15, 0.99, 20, "positivocreciente_001")
+# #positivo creciente, 1% responden
+# generarEntradaPositivoCreciente(15, 0.99, 20, "positivocreciente_001")
 
-#positivo creciente, 10% responden
-generarEntradaPositivoCreciente(15, 0.9, 20, "positivocreciente_01")
+# #positivo creciente, 10% responden
+# generarEntradaPositivoCreciente(15, 0.9, 20, "positivocreciente_01")
 
-#positivo creciente, 25% responden
-generarEntradaPositivoCreciente(15, 0.75, 20, "positivocreciente_025")
+# #positivo creciente, 25% responden
+# generarEntradaPositivoCreciente(15, 0.75, 20, "positivocreciente_025")
 
-#positivo creciente, igual cantidad de responden y no responden
-generarEntradaPositivoCreciente(15, 0.5, 20, "positivocreciente_05")
+# #positivo creciente, igual cantidad de responden y no responden
+# generarEntradaPositivoCreciente(15, 0.5, 20, "positivocreciente_05")
 
-#positivo creciente, 75% responden
-generarEntradaPositivoCreciente(15, 0.25, 20, "positivocreciente_075")
+# #positivo creciente, 75% responden
+# generarEntradaPositivoCreciente(15, 0.25, 20, "positivocreciente_075")
 
-#positivo creciente, 90% responden
-generarEntradaPositivoCreciente(15, 0.1, 20, "positivocreciente_09")
+# #positivo creciente, 90% responden
+# generarEntradaPositivoCreciente(15, 0.1, 20, "positivocreciente_09")
 
-#positivo creciente, 99% responden
-generarEntradaPositivoCreciente(15, 0.01, 20, "positivocreciente_099")
+# #positivo creciente, 99% responden
+# generarEntradaPositivoCreciente(15, 0.01, 20, "positivocreciente_099")
 
-#positivo creciente, todos responden
-generarEntradaPositivoCreciente(15, 0.0, 20, "positivocreciente_10")
+# #positivo creciente, todos responden
+# generarEntradaPositivoCreciente(15, 0.0, 20, "positivocreciente_10")
