@@ -100,6 +100,9 @@ void InterfazConsola::tomarTiempos(int repeticiones) {
             auto end = chrono::system_clock::now();
             auto elapsed = end-start;
             cout << elapsed.count();
+            if (i>20) {
+                cout << "," << elapsed.count() << "," << elapsed.count() << "," << elapsed.count();
+             }
             if (j<repeticiones2-1) { cout << ","; }
             else { cout << endl; }
         }

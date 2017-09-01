@@ -65,13 +65,35 @@ icreciente_00_sinpoda = []
 for p in ["00", "025", "05", "075", "0875", "10"]:
     icreciente_00_sinpoda.append("mediciones/icreciente_00_" + p + "_sinpoda.csv")
 
+graficar_muchos_datasets(icreciente_00_sinpoda,'i',"Tiempo de ejecucion (en milisegundos)")
+
 icreciente_025_sinpoda = []
 
 for p in ["00", "025", "05", "075", "0875", "10"]:
     icreciente_025_sinpoda.append("mediciones/icreciente_025_" + p + "_sinpoda.csv")
 
-graficar_muchos_datasets(icreciente_00_sinpoda, 'i', "Tiempo de ejecucion (en milisegundos)")
-graficar_muchos_datasets(icreciente_025_sinpoda, 'i', "Tiempo de ejecucion (en milisegundos)")
+icreciente_05_sinpoda = []
+
+for p in ["00", "025", "05", "075", "0875", "10"]:
+    icreciente_05_sinpoda.append("mediciones/icreciente_05_" + p + "_sinpoda.csv")
+
+icreciente_075_sinpoda = []
+
+for p in ["00", "025", "05", "075", "0875", "10"]:
+    icreciente_025_sinpoda.append("mediciones/icreciente_075_" + p + "_sinpoda.csv")
+
+icreciente_0875_sinpoda = []
+
+for p in ["00", "025", "05", "075", "0875", "10"]:
+    icreciente_0875_sinpoda.append("mediciones/icreciente_0875_" + p + "_sinpoda.csv")
+
+icreciente_10_sinpoda = []
+
+for p in ["00", "025", "05", "075", "0875", "10"]:
+    icreciente_10_sinpoda.append("mediciones/icreciente_00_" + p + "_sinpoda.csv")
+
+# for d in [icreciente_00_sinpoda, icreciente_025_sinpoda, icreciente_05_sinpoda, icreciente_075_sinpoda, icreciente_0875_sinpoda, icreciente_10_sinpoda]:
+#     graficar_muchos_datasets(d, 'i', "Tiempo medio (milisegundos)")
 
 # for d in ["mediciones/acreciente_00_sinpoda.csv", "mediciones/acreciente_001_sinpoda.csv", "mediciones/acreciente_01_sinpoda.csv", "mediciones/acreciente_05_sinpoda.csv", "mediciones/acreciente_05_sinpoda.csv", "mediciones/acreciente_075_sinpoda.csv", "mediciones/acreciente_09_sinpoda.csv", "mediciones/acreciente_099_sinpoda.csv", "mediciones/acreciente_10_sinpoda.csv"]:
 #     graficar_dataset(d, 'a')
