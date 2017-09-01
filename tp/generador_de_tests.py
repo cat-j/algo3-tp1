@@ -66,6 +66,15 @@ def generarEntradaPositivoCreciente(i, umbral_responder=0.5, cantidad=20, archiv
 
     return
 
+probas = [0.0, 0.01, 0.1, 0.25, 0.5, 0.75, 0.9, 0.99, 1.0]
+
+for p in probas:
+    for q in probas[:-1]:
+        pstring = str(p).replace(".","")
+        qstring = str(q).replace(".","")
+        generarEntradaICreciente(30, p, q, "icreciente_" + pstring + "_" + qstring)
+
+
 
 #i creciente, ninguno positivo
 generarEntradaICreciente(30, 1.0, 0.5, "icreciente_10_05")
