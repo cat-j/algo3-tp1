@@ -21,6 +21,17 @@ def generarCaso(k, umbral_respuesta_positiva=0.5, umbral_responder=0.5):
     caso.insert(0, str(k) + " " + str(a))
     return caso
 
+def generarEntradaMismoTamano(k, umbral_respuesta_positiva=0.5, umbral_responder=0.5, archivo="prueba"):
+    with open(archivo, 'w') as entrada:
+        for i in range(32):
+            caso = generarCaso(i, umbral_respuesta_positiva, umbral_responder)
+        for j in caso:
+            entrada.write(j + '\n')
+
+        entrada.write("0 0 \n")
+
+    return
+
 def generarEntradaICreciente(hasta, umbral_respuesta_positiva=0.5, umbral_responder=0.5, archivo="prueba"):
     # Genera una entrada que cumple el formato pedido por la catedra en la que cada caso tiene un agente
     # mas que el anterior. La probabilidad de que respondan y la de que lo hagan positivamente se mantiene

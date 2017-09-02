@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-for v in _sinpoda _poda1 _poda2 _poda1_poda2
+for v in _sinpoda 
   do
   for test in TEST*
     do
