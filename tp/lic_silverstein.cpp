@@ -56,28 +56,11 @@ int LicSilverstein::mayorCantidadAux(const int n, set<int> s) {
     if (n==cantAgentes) {
         set<int> solucionHoja = s;
 
-        #ifdef DEBUG
-        cout << "Llegamos a una hoja. ";
-        mostrarSetInts(solucionParcial);
-        #endif
-
         if (esValidoAgregar(n,solucionHoja)) {
-            #ifdef DEBUG
-            cout << "Agregamos " << n << " al conjunto ";
-            mostrarSetInts(solucionHoja);
-            #endif
             solucionHoja.insert(n);
-        } else {
-            #ifdef DEBUG
-            cout << "No agregamos " << n << " al conjunto ";
-            mostrarSetInts(solucionHoja);
-            #endif
         }
 
         if ( solucionHoja.size() > maxCantidadEncontrada ) {
-            #ifdef DEBUG
-            cout << "La cantidad nueva " << solucionHoja.size() << " es mayor a la maxima cantidad encontrada " << maxCantidadEncontrada << ". Actualizamos." << endl;
-            #endif 
             maxCantidadEncontrada = solucionHoja.size();
         } 
 
@@ -87,24 +70,10 @@ int LicSilverstein::mayorCantidadAux(const int n, set<int> s) {
         int sinAgregar = 0, agregando = 0;
         
         if ( esValidoNoAgregar(n, s) && !condicionPoda1(n, s) && !condicionPoda2(n, s) ) {
-            #ifdef DEBUG
-            cout << "Maximo actual: " << maxCantidadEncontrada << endl;
-            cout << "Padre: ";
-            mostrarSetInts(s);
-            cout << "Subarbol izquierdo, nivel " << n << ". No agregamos " << n << " al conjunto ";
-            mostrarSetInts(s);
-            #endif
             sinAgregar = mayorCantidadAux(n+1, s);
         }
 
         if ( esValidoAgregar(n, s) && !condicionPoda1(n, s) && !condicionPoda2(n, s) ) {
-            #ifdef DEBUG
-            cout << "Maximo actual: " << maxCantidadEncontrada << endl;
-            cout << "Subarbol derecho, nivel " << n << ". Agregamos " << n << " al conjunto ";
-            mostrarSetInts(s);
-            cout << "Padre: ";
-            mostrarSetInts(s);
-            #endif
             set<int> s2 = s;
             s2.insert(n);
             agregando = mayorCantidadAux(n+1, s2);
@@ -164,12 +133,7 @@ bool LicSilverstein::esValidoNoAgregar(int n, set<int> &s) { // O(a*log(i))
         int k = pregunta->first, j = pregunta->second;
 
         /* si un agente de la solucion dice que n es confiable, si o si hay que agregarlo */
-        if ( estaEnSolucion(k,s) && j==n ) {
-            #ifdef DEBUG
-            cout << k << " dice que " << n << " no es confiable y " << k << " esta en la solucion. No podemos no agregar a " << n << "." << endl;
-            #endif
-            return false;
-        }
+        if ( estaEnSolucion(k,s) && j==n ) { return false; }
     }
 
     return true;

@@ -3,7 +3,7 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{float}
-\usepackage[latin1]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[spanish]{babel}
 \usepackage{footnote}
@@ -288,6 +288,11 @@
 		\end{center}
 	
 	\subsection{Pseudoc\'odigo}
+	
+	\subsection{Correctitud}
+	
+	Veamos que el algoritmo presentado en la sección anterior efectivamente revisa \textbf{todo} el espacio de soluciones y se queda con la de mayor valor.
+	Supongamos que existe una solución $s_{0}$ válida, ubicada en una de las hojas del árbol, que el algoritmo \textbf{no chequeó}. Entonces, hay alguna solución parcial $s_{1}$ en algún nodo del camino a la solución $s_{0}$ donde el algoritmo tomo la decisión de podar el subárbol en el que eventualmente llegaría a $s_{0}$. El algoritmo no exploró este subárbol porque la decisión que debía tomar en ese momento -agregar o no agregar a un determinado agente \textit{j}- hubiera convertido a $s_{1}$ en una solución inválida. Pero, dado que el camino hacia una solución consiste en subconjuntos de ésta que son válidos como soluciones parciales, esto último es \textbf{imposible}: tendríamos un subconjunto de una solución válida que no es válido. Absurdo.
 
 \section{Complejidad}
 

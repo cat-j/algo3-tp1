@@ -65,7 +65,9 @@ icreciente_00_sinpoda = []
 for p in ["00", "025", "05", "075", "0875", "10"]:
     icreciente_00_sinpoda.append("mediciones/icreciente_00_" + p + "_sinpoda.csv")
 
-graficar_muchos_datasets(icreciente_00_sinpoda,'i',"Tiempo de ejecucion (en milisegundos)")
+# graficar_muchos_datasets(icreciente_00_sinpoda,'i',"Tiempo de ejecucion (en milisegundos)")
+
+graficar_muchos_datasets(["mediciones/icreciente_05_05_sinpoda.csv", "mediciones/icreciente_05_05_poda1.csv", "mediciones/icreciente_05_05_poda2.csv", "mediciones/icreciente_05_05_poda1_poda2.csv"], 'i', "Tiempo medio de ejecucion")
 
 icreciente_025_sinpoda = []
 
