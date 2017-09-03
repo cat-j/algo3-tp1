@@ -79,23 +79,18 @@ def generarEntradaPositivoCreciente(i, umbral_responder=0.5, cantidad=20, archiv
 
 probas = [0.0, 0.25, 0.5, 0.75, 0.875, 0.99, 1.0]
 
-#for p in probas:
-#    for q in probas[:-1]:
-#        pstring = str(p).replace(".","")
-#        qstring = str(q).replace(".","")
-#        generarEntradaMismoTamano(15,p,q,"tamanofijo/TEST_15agentes_"+pstring+"_"+qstring)
-#
-#generarEntradaMismoTamano(15,0.0,1.0,"tamanofijo/TEST_15agentes_avacio")
-#
-#for i in range(1,25):
-#    for p in probas:
-#        pstring = str(p).replace(".","")
-#        generarEntradaMismoTamano(i,0.5,p,"tamanovariable/TEST_" + str(i) + "agentes_" + pstring)
-#
+for p in probas:
+    for q in probas[:-1]:
+        pstring = str(p).replace(".","")
+        qstring = str(q).replace(".","")
+        generarEntradaMismoTamano(15,p,q,"tamanofijo/TEST_15agentes_"+pstring+"_"+qstring)
 
-for i in range(1,31):
+generarEntradaMismoTamano(15,0.0,1.0,"tamanofijo/TEST_15agentes_avacio")
+
+for i in range(1,25):
     for p in probas:
         pstring = str(p).replace(".","")
-        generarEntradaMismoTamano(i,p,0.9,"tamanovariable/TEST_" + str(i) + "agentes_" + pstring + "negativo")
+        generarEntradaMismoTamano(i,0.5,p,"tamanovariable/TEST_" + str(i) + "agentes_" + pstring)
+
 
 #generarEntradaMismoTamano(20,0.5,0.5,"prueba1")
